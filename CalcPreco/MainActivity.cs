@@ -126,18 +126,10 @@ namespace CalcPreco
             // Se tiver campos vazios seta valores em no vol e no preco na posição do index
             for(int i = 0; i < preco.Length; i++)
             {
-                if (preco[i].Text == "")
+                if (preco[i].Text == "" || vol[i].Text == "")
                 {
                     preco[i].Text = "15000";
                     vol[i].Text = "5000";
-                }
-            }
-            for (int i = 0; i < vol.Length; i++)
-            {
-                if (vol[i].Text == "")
-                {
-                    vol[i].Text = "5000";
-                    preco[i].Text = "15000";
                 }
             }
         }
@@ -165,9 +157,14 @@ namespace CalcPreco
             validFieldsEmpty();
             setDefaultStyle();
 
-            // pega o menor valor
             for (int i = 0; i < camposTextView.Length; i++)
             {
+
+                decimal precoX = decimal.Parse(preco[i].Text);
+                int volX = int.Parse(volume[i].Text);
+
+                camposTextView[i].Text = ((precoX / volX) * 1000).ToString("F2");
+
                 if (decimal.Parse(camposTextView[i].Text) < menor)
                 {
                     menor = decimal.Parse(camposTextView[i].Text);
@@ -176,60 +173,60 @@ namespace CalcPreco
                 if (decimal.Parse(camposTextView[i].Text) >= 3000)
                 {
                     camposTextView[i].Text = "";
-                }
-            }
-            // reseta todos os campos que não forem preenchidos
-            for (int i = 0; i < volume.Length; i++)
-            {
-                if (int.Parse(volume[i].Text) == 5000)
-                {
                     volume[i].Text = "";
-                }
-            }
-            for (int i = 0; i < preco.Length; i++)
-            {
-                if (decimal.Parse(preco[i].Text) == 15000)
-                {
                     preco[i].Text = "";
                 }
+                volume[0].RequestFocus(Android.Views.FocusSearchDirection.Left);
             }
-            // só seta o menor valor se ele for chamado
-            for (int i = 0; i < camposTextView.Length; i++)
-            {        
-                if (menor != 1000)
-                {
+            // só seta o menor valor se ele for chamado    
 
-                    if (ModoDaltonico)
-                    {
-                        setDefaultStyle();
-                        if (posicao != 4)
-                        {
-                            camposTextView[posicao].SetBackgroundResource(Resource.Drawable.bordaRedondaRoxo);
-                            camposTextView[posicao].SetTextColor(Color.DarkCyan);
-                        }
-                    }
-                    else
-                    {
-                        setDefaultStyle();
-                        if (posicao != 4)
-                        {
-                            camposTextView[posicao].SetBackgroundResource(Resource.Drawable.btnCalcular);
-                            camposTextView[posicao].SetTextColor(Color.Black);
-                        }
-                    }                
+            if (ModoDaltonico)
+            {
+                setDefaultStyle();
+                if (posicao != 4)
+                {
+                    camposTextView[posicao].SetBackgroundResource(Resource.Drawable.bordaRedondaRoxo);
+                    camposTextView[posicao].SetTextColor(Color.DarkCyan);
                 }
-            }       
+            }
+            else
+            {
+                setDefaultStyle();
+                if (posicao != 4)
+                {
+                    camposTextView[posicao].SetBackgroundResource(Resource.Drawable.btnCalcular);
+                    camposTextView[posicao].SetTextColor(Color.Black);
+                }
+            }
+            posicao = 4;
+            menor = 1000;
         }
         private void _btnCalcular_Click(object sender, System.EventArgs e)
         {
-            validFieldsEmpty();
-            calculaPreco();
+            //validFieldsEmpty();
+            //calculaPreco();
             showBestOption();
         }
         public void calculaPreco()
         {
+            /*
             validFieldsEmpty();
+            TextView[] vlitro = getTextView();
+            TextView[] vol = getVolume();
+            TextView[] preco = getPreco();
 
+            
+            for (int i = 0; i < vlitro.Length; i++)
+            {
+                decimal preco1 = decimal.Parse(preco[i].Text);
+                int vol1 = int.Parse(vol[i].Text);
+                if (!(vol[i].Text.Equals("") && preco[i].Text.Equals("")))
+                {
+                    vlitro[i].Text = ((preco1 / vol1) * 1000).ToString("F2");
+                }
+            }*/
+
+            /*
             decimal preco1 = decimal.Parse(_preco1.Text);
             int volume1 = int.Parse(_volume1.Text);
             decimal valorLitro1 = (preco1 / volume1) * 1000;
@@ -250,6 +247,7 @@ namespace CalcPreco
             _txtValor2.Text = valorLitro2.ToString("F2");
             _txtValor3.Text = valorLitro3.ToString("F2");
             _txtValor4.Text = valorLitro4.ToString("F2");
+            */
         }
         private void _btnLimpar_Click(object sender, System.EventArgs e)
         {
@@ -258,15 +256,15 @@ namespace CalcPreco
         public void CleanFields()
         {
             // limpa todos os campos
-            EditText[] campos = getCampos();
-            TextView[] camposTextView = getTextView();
-            for (int i = 0; i < campos.Length; i++)
+            EditText[] preco = getPreco();
+            EditText[] vol = getCampos();
+            TextView[] vLitro = getTextView();
+            for (int i = 0; i < vLitro.Length; i++)
             {
-                campos[i].Text = "";
-            }
-            for (int i = 0; i < camposTextView.Length; i++)
-            {
-                camposTextView[i].Text = "";
+                preco[i].Text = "";
+                vol[i].Text = "";
+                vLitro[i].Text = "";
+                vol[0].RequestFocus(Android.Views.FocusSearchDirection.Left);
             }
             // reseta o estilo e a melhor opção
             setDefaultStyle();
