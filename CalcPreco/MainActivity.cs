@@ -123,7 +123,7 @@ namespace CalcPreco
                 _volume4.Text = "5000";
             }*/
 
-            // Se tiver campos vazios seta valores em no vol e no preco na posição do index
+            // Se tiver campos vazios seta valores no vol e no preco na posição do index
             for(int i = 0; i < preco.Length; i++)
             {
                 if (preco[i].Text == "" || vol[i].Text == "")
@@ -156,13 +156,10 @@ namespace CalcPreco
             EditText[] preco = getPreco();
             validFieldsEmpty();
             setDefaultStyle();
-
             for (int i = 0; i < camposTextView.Length; i++)
             {
-
                 decimal precoX = decimal.Parse(preco[i].Text);
                 int volX = int.Parse(volume[i].Text);
-
                 camposTextView[i].Text = ((precoX / volX) * 1000).ToString("F2");
 
                 if (decimal.Parse(camposTextView[i].Text) < menor)
@@ -178,8 +175,6 @@ namespace CalcPreco
                 }
                 volume[0].RequestFocus(Android.Views.FocusSearchDirection.Left);
             }
-            // só seta o menor valor se ele for chamado    
-
             if (ModoDaltonico)
             {
                 setDefaultStyle();
